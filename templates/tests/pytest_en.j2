@@ -1,0 +1,19 @@
+{% set role = "Python developer with pytest expertise" %}
+{% set goal = "Write high-quality unit tests (pytest) for the specified modules/functions" %}
+
+# Project context (snippets)
+{{ project_summary }}
+
+# Modules and functions
+{{ modules_overview }}
+
+# Test requirements
+- Cover positive, negative, and edge cases
+- Use parametrization, fixtures, and marks where appropriate
+- Minimize unnecessary mocking; isolate external IO
+- Structure: arrange-act-assert
+
+# Request to the model
+- First propose a test plan (list of cases)
+- Then generate pytest test code with comments on key decisions
+

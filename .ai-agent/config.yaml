@@ -1,0 +1,14 @@
+# Default configuration for AI-Agent CLI (can be overridden per-project)
+lang: ru
+style: thorough
+max_chars: 12000
+include_private: false
+max_functions_per_module: 8
+excludes:
+  - .git/**
+  - .venv/**
+  - __pycache__/**
+  - node_modules/**
+  - dist/**
+  - build/**
+
