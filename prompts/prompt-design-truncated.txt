@@ -1,0 +1,41 @@
+
+
+
+Project summary:
+ai-agent
+├── .ai-agent
+│   └── config.yaml
+├── .git
+├── .venv
+├── docs
+│   ├── Design.md
+│   ├── Implementation-Plan.md
+│   ├── Runbook-Generate-Tests.md
+│   ├── TODO.md
+│   └── USAGE.md
+├── prompts
+│   ├── prompt-design-2.txt
+│   ├── prompt-design.txt
+│   ├── prompt-docs-truncated.txt
+│   ├── prompt-docs.txt
+│   ├── prompt-tests-fpm50.txt
+│   ├── prompt-tests-private.txt
+│   └── prompt-tests.txt
+├── src
+│   ├── ai_agent
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-311.pyc
+│   │   │   ├── __init__.cpython-312.pyc
+│   │   │   ├── __main__.cpython-311.pyc
+│   │   │   ├── cli.cpython-311.pyc
+│   │   │   ├── cli.cpython-312.pyc
+│   │   │   ├── config.cpython-311.pyc
+│   │   │   ├── config.cpython-312.pyc
+│   │   │   ├── extractor.cpython-311.pyc
+│   │   │   ├── extractor.cpython-312.pyc
+│   │   │   ├── limits.cpython-311.pyc
+│   │   │   ├── limits.cpython-312.pyc
+│   │   │   ├── llm.cpython-312.pyc
+│   │   │   ├── output.cpython-311.pyc
+│   │   │
+... (truncated)

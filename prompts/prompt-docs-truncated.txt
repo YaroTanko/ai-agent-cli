@@ -1,0 +1,27 @@
+
+
+
+Document type: readme
+Audience: developers
+Tone: neutral
+
+Materials:
+- Module: /Users/yaroslavtanko/Developer/GenAI/ai-agent/src/ai_agent/scanner.py
+  * def scan_paths(paths, excludes, domain) -> ScanResult
+  * def summarize_tree(paths, excludes, max_depth, max_entries) -> str
+    Doc: Produce a simple textual tree summary for design prompts.
+Limits depth and number of entries for safety....
+  * def _build_spec(excludes) -> PathSpec
+  * def _iter_files(paths) -> Iterable[Path]
+  * class ScanResult
+- Module: /Users/yaroslavtanko/Developer/GenAI/ai-agent/src/ai_agent/config.py
+  * def load_config(cwd, explicit_config_path) -> Config
+    Doc: Load configuration with the following precedence:
+- Defaults (built-in)
+- File at explicit_config_path if provided
+- File at <cwd>/.ai-agent/config.yaml if pres...
+  * def _deep_merge(base, override) -> Dict[str, Any]
+  * def _load_yaml(path) -> Dict[str, Any]
+  * def _apply_env(overrides) -> Dict[str, Any]
+  * def _validate(cfg) -> Di
+... (truncated)
