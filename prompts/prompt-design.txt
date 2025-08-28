@@ -1,0 +1,145 @@
+
+
+
+Project summary:
+ai-agent
+├── .ai-agent
+│   └── config.yaml
+├── .venv
+├── docs
+│   ├── Design.md
+│   ├── Implementation-Plan.md
+│   ├── TODO.md
+│   └── USAGE.md
+├── prompts
+├── src
+│   ├── ai_agent
+│   │   ├── __pycache__
+│   │   │   ├── __init__.cpython-311.pyc
+│   │   │   ├── __init__.cpython-312.pyc
+│   │   │   ├── __main__.cpython-311.pyc
+│   │   │   ├── cli.cpython-311.pyc
+│   │   │   ├── cli.cpython-312.pyc
+│   │   │   ├── config.cpython-311.pyc
+│   │   │   ├── config.cpython-312.pyc
+│   │   │   ├── extractor.cpython-311.pyc
+│   │   │   ├── extractor.cpython-312.pyc
+│   │   │   ├── limits.cpython-311.pyc
+│   │   │   ├── limits.cpython-312.pyc
+│   │   │   ├── output.cpython-311.pyc
+│   │   │   ├── output.cpython-312.pyc
+│   │   │   ├── parser.cpython-311.pyc
+│   │   │   ├── parser.cpython-312.pyc
+│   │   │   ├── scanner.cpython-311.pyc
+│   │   │   ├── scanner.cpython-312.pyc
+│   │   │   ├── template_engine.cpython-311.pyc
+│   │   │   └── template_engine.cpython-312.pyc
+│   │   ├── __init__.py
+│   │   ├── __main__.py
+│   │   ├── cli.py
+│   │   ├── config.py
+│   │   ├── extractor.py
+│   │   ├── limits.py
+│   │   ├── output.py
+│   │   ├── parser.py
+│   │   ├── scanner.py
+│   │   └── template_engine.py
+│   └── ai_agent_cli.egg-info
+│       ├── dependency_links.txt
+│       ├── entry_points.txt
+│       ├── PKG-INFO
+│       ├── requires.txt
+│       ├── SOURCES.txt
+│       └── top_level.txt
+├── templates
+│   ├── base
+│   │   └── base_en.j2
+│   ├── design
+│   │   └── design_en.j2
+│   ├── docs
+│   │   └── docs_en.j2
+│   └── tests
+│       └── pytest_en.j2
+├── tests
+│   └── .gitkeep
+├── .gitignore
+├── pyproject.toml
+└── README.md
+
+Key components and responsibilities:
+- Module: /Users/yaroslavtanko/Developer/GenAI/ai-agent/src/ai_agent/scanner.py
+  * def scan_paths(paths, excludes, domain) -> ScanResult
+  * def summarize_tree(paths, excludes, max_depth, max_entries) -> str
+    Doc: Produce a simple textual tree summary for design prompts.
+Limits depth and number of entries for safety....
+  * def _build_spec(excludes) -> PathSpec
+  * def _iter_files(paths) -> Iterable[Path]
+  * class ScanResult
+- Module: /Users/yaroslavtanko/Developer/GenAI/ai-agent/src/ai_agent/config.py
+  * def load_config(cwd, explicit_config_path) -> Config
+    Doc: Load configuration with the following precedence:
+- Defaults (built-in)
+- File at explicit_config_path if provided
+- File at <cwd>/.ai-agent/config.yaml if pres...
+  * def _deep_merge(base, override) -> Dict[str, Any]
+  * def _load_yaml(path) -> Dict[str, Any]
+  * def _apply_env(overrides) -> Dict[str, Any]
+  * def _validate(cfg) -> Dict[str, Any]
+  * class Config
+    - def to_dict(self) -> Dict[str, Any]
+- Module: /Users/yaroslavtanko/Developer/GenAI/ai-agent/src/ai_agent/limits.py
+  * class Limits
+- Module: /Users/yaroslavtanko/Developer/GenAI/ai-agent/src/ai_agent/template_engine.py
+  * def _style_text(lang, style) -> str
+  * def _truncate(text, max_chars) -> str
+  * class TemplateEngine
+    - def render(self, domain, lang, style, context, max_chars) -> str
+    - def __post_init__(self) -> None
+    - def _template_path(self, domain, lang) -> str
+- Module: /Users/yaroslavtanko/Developer/GenAI/ai-agent/src/ai_agent/__init__.py
+  Doc: AI-Agent CLI package (MVP).
+
+This package provides a CLI to generate high-quality prompts for tests, docs, and design....
+- Module: /Users/yaroslavtanko/Developer/GenAI/ai-agent/src/ai_agent/extractor.py
+  * def build_python_context(paths, limits) -> ProjectContext
+    Doc: Parse Python files into ModuleInfo items.
+This function expects `paths` to already be filtered to Python files....
+  * def summarize_modules(modules, limits) -> str
+    Doc: Produce a textual overview of modules and top functions/classes.
+Applies simple prioritization: public first, then private, up to per-module limits....
+  * class ProjectContext
+- Module: /Users/yaroslavtanko/Developer/GenAI/ai-agent/src/ai_agent/parser.py
+  * def parse_module(path, limits) -> Optional[ModuleInfo]
+  * def _get_source_lines(path) -> List[str]
+  * def _extract_snippet(lines, start, end, limits) -> str
+  * def _ann_to_str(node) -> Optional[str]
+  * def _args_from_function(node) -> List[str]
+  * def _decorators(node) -> List[str]
+  * def _is_public(name) -> bool
+  * class FunctionInfo
+  * class ClassInfo
+  * class ModuleInfo
+- Module: /Users/yaroslavtanko/Developer/GenAI/ai-agent/src/ai_agent/cli.py
+  * def main_callback(ctx, config, lang, style, max_chars, debug)
+    Doc: Load configuration and store in context....
+  * def tests(ctx, paths, include_private, pytest_scope, copy, out)
+  * def docs(ctx, paths, doc_type, audience, tone, copy, out)
+  * def design(ctx, paths, copy, out)
+  * def _engine() -> TemplateEngine
+  * def _limits_from_config(cfg) -> Limits
+- Module: /Users/yaroslavtanko/Developer/GenAI/ai-agent/src/ai_agent/__main__.py
+  * def main() -> None
+- Module: /Users/yaroslavtanko/Developer/GenAI/ai-agent/src/ai_agent/output.py
+  * def save_prompt(text, options) -> Optional[Path]
+  * def copy_to_clipboard(text) -> bool
+  * def emit(text, options) -> Optional[Path]
+  * def _ensure_dir(p) -> None
+  * class OutputOptions
+
+Issues, risks, and optimization opportunities:
+
+
+Expected output:
+- A concise architecture overview (text)
+- A prioritized list of improvements
+- A step-by-step implementation plan
